@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.inclined.hibernate.demo.entity.Student;
 
-public class QueryHibernateDemo {
+public class UpdateHibernateQuery {
 
 	public static void main(String[] args) {
 		SessionFactory factory = new Configuration()
@@ -22,14 +22,16 @@ public class QueryHibernateDemo {
 		// start transaction
 		session.beginTransaction();
 		
-		List<Student> student1 = session.createQuery("from Student s where s.lastName='tiw'"
-				+ " and s.firstName like '%as%'")
-									.getResultList();
+		Student student = session.get(Student.class, 1);
 		
-		for(Student stu: student1) {
-			System.out.println("Student is : "+ stu);
-		}
 		
+		session.createQuery("update Student s set s.email='temp123@gmail.com' where s.id=1").executeUpdate();
+		
+
+		 student = session.get(Student.class, 1);
+
+		System.out.println("Student before : " + student);
+
 		System.out.println("Commited!");
 		session.getTransaction().commit();
 		
